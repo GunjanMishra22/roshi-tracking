@@ -5,167 +5,30 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Roshi Transport Driver</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
-<style>
-  :root{
-    --desert: #A36B23;
-    --ronchi: #EDCE4D;
-    --quarter: #F8F0E2;
-    --galliano: #E3B209;
-    --card-bg: rgba(255,255,255,0.92);
-  }
-
-  html,body{
-    height:100%;
-    margin:0;
-    font-family:"Poppins",sans-serif;
-    background: linear-gradient(135deg,var(--quarter),var(--ronchi));
-    color:#222;
-  }
-
-  .wrap{
-    min-height:100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:28px;
-    box-sizing:border-box;
-  }
-
-  .card{
-    width:420px;
-    max-width:92%;
-    background:var(--card-bg);
-    border-radius:20px;
-    padding:36px;
-    box-shadow:0 22px 55px rgba(12,18,24,0.15);
-    backdrop-filter: blur(10px);
-    text-align:center;
-  }
-
-  .brand{
-    font-size:22px;
-    font-weight:600;
-    color:var(--desert);
-    margin-bottom:10px;
-  }
-
-  .sub{
-    font-size:14px;
-    color:#444;
-    margin-bottom:24px;
-    line-height:1.5;
-  }
-
-  .input{
-    width:100%;
-    padding:15px 16px;
-    border:1px solid rgba(10,10,10,0.08);
-    border-radius:14px;
-    font-size:16px;
-    margin-bottom:20px;
-    outline:none;
-    background:rgba(255,255,255,0.85);
-  }
-
-  .controls{
-    display:flex;
-    gap:14px;
-    justify-content:center;
-  }
-
-  .btn{
-    flex:1;
-    padding:15px 16px;
-    border-radius:16px;
-    border:none;
-    font-size:16px;
-    font-weight:600;
-    cursor:pointer;
-    color:#fff;
-    background: linear-gradient(180deg, rgba(227,178,9,0.95), rgba(163,107,35,0.92));
-    box-shadow:0 12px 32px rgba(163,107,35,0.18);
-    transition:150ms ease;
-    display:none;
-  }
-
-  .btn:hover{opacity:0.92;}
-  .btn:active{transform:translateY(1px);}
-
-  .btn.secondary{
-    background: linear-gradient(180deg, rgba(120,120,120,0.18), rgba(90,90,90,0.12));
-    border:1px solid rgba(255,255,255,0.15);
-    box-shadow:0 10px 25px rgba(100,100,100,0.12);
-    color:#222;
-  }
-
-  .note{
-    margin-top:18px;
-    font-size:12px;
-    color:var(--desert);
-    font-weight:500;
-  }
-
-</style>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 </head>
 <body>
-  <div class="wrap">
+
+<div class="wrap">
     <div class="card">
-      <div class="brand">Roshi Transport</div>
-      <p class="sub">Enter your name to begin trip based safety tracking.</p>
+        <div class="brand">Roshi Transport</div>
+        <p class="sub">Enter your name to begin trip based safety tracking.</p>
 
-      <input id="nameInput" class="input" type="text" placeholder="Driver name" />
+        <input id="nameInput" class="input" type="text" placeholder="Driver name" />
 
-      <div class="controls">
-        <button id="startBtn" class="btn">Start Trip</button>
-        <button id="stopBtn" class="btn secondary" disabled>Stop Trip</button>
-      </div>
+        <div class="controls">
+            <button id="startBtn" class="btn">Start Trip</button>
+            <button id="stopBtn" class="btn secondary" disabled>Stop Trip</button>
+        </div>
 
-      <div class="note">Your live location updates only while your trip is active.</div>
+        <div class="note">Your live location updates only while your trip is active.</div>
     </div>
-  </div>
+</div>
 
-<script>
-  const nameInput = document.getElementById('nameInput');
-  const startBtn = document.getElementById('startBtn');
-  const stopBtn = document.getElementById('stopBtn');
+<div id="map"></div>
 
-  const saved = localStorage.getItem('rt_driver_name');
-  if(saved){
-    nameInput.value = saved;
-    revealButtons();
-  }
-
-  function revealButtons(){
-    startBtn.style.display = 'inline-block';
-    stopBtn.style.display = 'inline-block';
-  }
-
-  nameInput.addEventListener('input', () => {
-    if(nameInput.value.trim().length > 0){
-      revealButtons();
-    } else {
-      startBtn.style.display = 'none';
-      stopBtn.style.display = 'none';
-    }
-  });
-
-  startBtn.addEventListener('click', () => {
-    const name = nameInput.value.trim();
-    if(!name){ alert('Name is required'); return; }
-
-    localStorage.setItem('rt_driver_name', name);
-    startBtn.disabled = true;
-    stopBtn.disabled = false;
-
-    alert('Trip started. Live tracking will begin.');
-  });
-
-  stopBtn.addEventListener('click', () => {
-    startBtn.disabled = false;
-    stopBtn.disabled = true;
-    alert('Trip stopped. Tracking paused.');
-  });
-</script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
